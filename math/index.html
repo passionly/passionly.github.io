@@ -165,7 +165,7 @@
   }
 
   function onStartGame() {
-    MAX_NUM = document.getElementById("max_num").value;
+    MAX_NUM = document.getElementById("max_num").value + 1;
     MAX_ANSWER_LEN = ((MAX_NUM * 2) + "").length;
     setTime(MAX_TIME);
     setScore(0);
@@ -203,7 +203,7 @@
     </div>
   </div>
   <div id="start">
-    <p>Number less than <input id="max_num" type="number" value="30" min="10" max="100"></input></p>
+    <p>Max Number<input id="max_num" type="number" value="30" min="10" max="100"></input></p>
     <button onclick="onStartGame()">Start</button>
   </div>
 </body>
