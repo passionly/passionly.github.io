@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Type Shoot</title>
+<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="jquery-ui.min.js"></script>
+<script type="text/javascript" src="words-3432.js"></script>
+<script type="text/javascript" src="type.js"></script>
+<style type="text/css">
+  body {
+    font-size: 5vh;      
+    color: white;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  #header {
+    background-color: #003;
+    width:100%;
+    height: 6.1vh;
+    text-align: right;
+    box-sizing: border-box;
+    padding: 0 2vw;
+    text-align: center;
+  }
+
+  #miss {
+    float: left;
+    color: #f43;
+  }
+
+  #hit {
+    float: right;
+    color: #7f7;
+  }
+
+  #sky {
+    background-image: linear-gradient(#004, #000);
+    width: 100%;
+    top: 6vh;
+    bottom: 6vh;
+    position: absolute;
+    overflow: hidden;
+  }
+
+  #sky span {
+    position: absolute;
+  }
+
+  .bullet {
+    position: absolute;
+    width: 0.25vw;
+    height: 0.75vw;
+    background-color: yellow;
+    border-radius: 0.1vw;
+  }
+
+  #overlay {
+    text-align: center;
+    margin: auto 0;
+    font-size: 7vh;
+  }
+
+  #total {
+    font-size: 7vh;
+    width: 10vw;
+  }
+
+  #difficulty {
+    width: 30vw;
+    -webkit-appearance: none;
+    height: 1vh;
+    border-radius: 0.5vh;
+    background: #aaa;
+    outline: none;
+    vertical-align: middle;
+  }
+
+  #difficulty::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 3vh;
+    height: 3vh;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  #overlay button {
+    margin-top: 5vh;
+    font-size: 10vh;
+    padding: 5vh 5vw;
+    border-radius: 1vh;
+  }
+
+  #ground {
+    position: absolute;
+    bottom: 0;
+    background-color: #0c0c07;
+    width: 100%;
+    height: 6.1vh;
+    text-align: center;
+    font-size: 4vh;
+    color: yellow;
+  }
+</style>
+</head>
+
+<body onload="onLoad()">
+  <div id="header">
+    <span id="miss">0</span>
+    <span id="remaining"></span>
+    <span id="hit">0</span>
+  </div>
+  <div id="sky">
+    <div id="overlay">
+      <p>
+        Total number of words
+        <input id="total" type="number" value="20" min="10" max="100" step="10">
+      </p>
+      <p>
+        Easy <input type="range" id="difficulty" value="1" min="0" max="6" /> Hard
+      </p>
+      <p>
+        <button onclick="start()">Start</button>
+      </p>
+    </div>
+  </div>
+  <div id="ground"></div>
+</body>
+
+</html>
