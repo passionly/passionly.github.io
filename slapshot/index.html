@@ -1,15 +1,133 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <title>Slapshot</title>
+  
+    <base href="/" />
+  
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <meta name="description" content="Slapshot" />
+  
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#181818" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3f3f3" />
     <style>
       body {
         font-family: 'Open Sans', sans-serif;
         font-size: 1.5em;
         padding-left: 0.5em;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+      }
+
+      .dispenser {
+        grid-row: 1;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 3fr 3fr 8fr 3fr 3fr;
+      }
+
+      .dispenser button {
+        width: 100%;
+        grid-column: 1;
+        background-color: rgba(200, 200, 200, 0.8);
+        border: 1px solid black;
+      }
+
+      .dispenser button.b1 {
+        grid-row: 1;
+      }
+
+      .dispenser button.b2 {
+        grid-row: 2;
+      }
+
+      .dispenser div {
+        line-height: 8vh;
+        width: 100%;
+        text-align: center;
+        grid-row: 3;
+      }
+
+      .dispenser button.b4 {
+        grid-row: 4;
+      }
+
+      .dispenser button.b5 {
+        grid-row: 5;
+      }
+
+      .left-purple {
+        grid-column: 1;
+        background-color: #af00af;
+      }
+
+      .left-blue {
+        grid-column: 2;
+        background-color: #3377FF;
+      }
+
+      .yellow {
+        grid-column: 3;
+        background-color: gold;
+      }
+
+      .right-blue {
+        grid-column: 4;
+        background-color: #3377FF;
+      }
+
+      .right-purple {
+        grid-column: 5;
+        background-color: #af00af;
       }
     </style>
   </head>
   <body>
-    Test
+    <div class="dispenser left-purple">
+      <button type="button" class="b1">All</button>
+      <button type="button" class="b2">+1</button>
+      <div id="">8</div>
+      <button type="button" class="b4">-1</button>
+      <button type="button" class="b5">0</button>
+    </div>
+    <div class="dispenser left-blue">
+      <button type="button" class="b1">All</button>
+      <button type="button" class="b2">+1</button>
+      <div id="">10</div>
+      <button type="button" class="b4">-1</button>
+      <button type="button" class="b5">0</button>
+    </div>
+    <div class="dispenser yellow">
+      <button type="button" class="b1">All</button>
+      <button type="button" class="b2">+1</button>
+      <div id="">9</div>
+      <button type="button" class="b4">-1</button>
+      <button type="button" class="b5">0</button>
+    </div>
+    <div class="dispenser right-blue">
+      <button type="button" class="b1">All</button>
+      <button type="button" class="b2">+1</button>
+      <div id="">10</div>
+      <button type="button" class="b4">-1</button>
+      <button type="button" class="b5">0</button>
+    </div>
+    <div class="dispenser right-purple">
+      <button type="button" class="b1">All</button>
+      <button type="button" class="b2">+1</button>
+      <div id="">8</div>
+      <button type="button" class="b4">-1</button>
+      <button type="button" class="b5">0</button>
+    </div>
+    <div>
+
+    </div>
   </body>
 </html>
