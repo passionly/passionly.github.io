@@ -1,1 +1,218 @@
-aa
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Math</title>
+<style type="text/css">
+  body {
+    background-color: #333;
+    color: white;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+    font-weight: bold;
+    font-size: 4vh;
+  }
+
+  #start {
+    margin: 20vh 0;
+  }
+
+  #start button {
+    font-size: 12vh;
+    font-weight: bold;
+    background-color: #ddd;
+    border: 0;
+    border-radius: 4vh;
+    padding: 4vh 8vw;
+  }
+
+  #max_num {
+    font-size: 4vh;
+    width: 10vh;
+  }
+
+  .key {
+    font-size: 6vw;
+    font-weight: bold;
+    height: 8vw;
+    width: 8vw;
+    background-color: #ddd;
+    border: 0;
+    border-radius: 1vh;
+    margin: 0.2vw;
+  }
+
+  hr {
+    margin: 1vh 0;
+  }
+
+  #blackboard {
+    font-size: 8vh;
+    display: inline-block;
+    margin: 10vh;
+    text-align: right;
+  }
+
+  #question {
+    position: relative;
+    padding-left: 8vh;
+  }
+
+  #op {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  #answer {
+    height: 10vh;
+  }
+
+  #timer {
+    position: absolute;
+    left: 4vw;
+    top: 2vh;
+  }
+  
+  #score {
+    position: absolute;
+    right: 4vw;
+    top: 2vh;
+  }
+</style>
+<script type="text/javascript">
+  const MAX_TIME = 300;
+
+  var MAX_NUM = 30;
+  var MAX_ANSWER_LEN = 2;
+
+  var timerDiv;
+  var timeRemaining;
+  var answerDiv;
+  var answer;
+  var scoreDiv;
+  var score;
+
+  var timer; // = setInterval(myTimer, 1000);
+
+  function setScore(s) {
+    score = s;
+    scoreDiv.innerText = "Score: " + score;
+  }
+
+  function setTime(x) {
+    timeRemaining = x;
+    var sec = x % 60;
+    timerDiv.innerText = (x - sec) / 60 + ":" + (sec < 10 ? "0" + sec : "" + sec)
+  }
+
+  function myTimer() {
+    setTime(timeRemaining - 1);
+    if (timeRemaining == 0) {
+      clearInterval(timer);
+      document.getElementById("start").style.display = "inline-block";
+      document.getElementById("game").style.display = "none";
+    }
+  }
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  function newQuestion() {
+    var op1 = getRandomInt(MAX_NUM);
+    var op2 = getRandomInt(MAX_NUM);
+    var op = getRandomInt(2) == 0 ? "+" : "-";
+    if (op == "-" && op1 < op2) {
+      var tmp = op2;
+      op2 = op1;
+      op1 = tmp;
+    } 
+
+    answer = (op == "+" ? op1 + op2 : op1 - op2) + "";
+
+    document.getElementById("op1").innerText = op1;
+    document.getElementById("op2").innerText = op2;
+    document.getElementById("op").innerText = op;
+    answerDiv.innerText = "?";
+  }
+
+  function onKey(k) {
+    if (timeRemaining <= 0) return;
+
+    if (answerDiv.innerText == "?") {
+      answerDiv.innerText = k;
+    } else if (answerDiv.innerText.length < MAX_ANSWER_LEN) {
+      answerDiv.innerText += k;
+    }
+    if (answerDiv.innerText == answer) {
+      setScore(score + 1);
+      newQuestion();
+    }
+  }
+
+  function onErase() {
+    if (timeRemaining <= 0) return;
+    answerDiv.innerText = "?";
+  }
+
+  function onload() {
+    answerDiv = document.getElementById("answer");
+    scoreDiv = document.getElementById("score");
+    timerDiv = document.getElementById("timer");
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key >= '0' && event.key <= '9') {
+        onKey(event.key);
+      } else if (event.code == 'Backspace') {
+        onErase();
+      }
+    });
+  }
+
+  function onStartGame() {
+    MAX_NUM = parseInt(document.getElementById("max_num").value) + 1;
+    MAX_ANSWER_LEN = ((MAX_NUM * 2) + "").length;
+    setTime(MAX_TIME);
+    setScore(0);
+    newQuestion();
+    document.getElementById("start").style.display = "none";
+    document.getElementById("game").style.display = "block";
+    timer = setInterval(myTimer, 1000);
+  }
+</script>
+</head>
+<body onLoad="onload()">
+  <div id="timer">5:00</div>
+  <div id="score">Score: 0</div>
+  <div id="game" style="display: none">
+    <div id="blackboard">
+      <div id="question">
+        <div id="op1"></div>
+        <div id="op2"></div>
+        <div id="op"></div>
+      </div>
+      <hr>
+      <div id="answer" onclick="onErase()"></div>  
+    </div>
+    <div id="keyboard">
+      <button class="key" onclick="onKey(0)">0</button>
+      <button class="key" onclick="onKey(1)">1</button>
+      <button class="key" onclick="onKey(2)">2</button>
+      <button class="key" onclick="onKey(3)">3</button>
+      <button class="key" onclick="onKey(4)">4</button>
+      <button class="key" onclick="onKey(5)">5</button>
+      <button class="key" onclick="onKey(6)">6</button>
+      <button class="key" onclick="onKey(7)">7</button>
+      <button class="key" onclick="onKey(8)">8</button>
+      <button class="key" onclick="onKey(9)">9</button>
+    </div>
+  </div>
+  <div id="start">
+    <p>Max Number <input id="max_num" type="number" value="30" min="10" max="100"></input></p>
+    <button onclick="onStartGame()">Start</button>
+  </div>
+</body>
+</html>
