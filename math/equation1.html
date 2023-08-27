@@ -12,27 +12,132 @@ body {
 }
 
 h1 {
-  font-size: 8vh;
+  font-size: 12vh;
   font-weight: bolder;
   color: #fff;
 }
 
-.launcher {
+#question {
   font-size: 10vh;
   font-weight: bolder;
-  height: 20vh;
-  width: 30vw;
-  background-color: #ddd;
-  border: 0;
-  border-radius: 5vh;
-  margin: 1vw;
+  color: #ddd;
 }
 </style>
+<script type="text/javascript">
+  function getRandomBoolean() {
+    return Math.random() < 0.5;
+  }
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  /* Randomize array in-place using Durstenfeld shuffle algorithm */
+  function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+  }
+
+  class Term {
+    coefficient = 0;
+    variable = 'X';
+
+    constructor(num_variables) {
+      console.log("new Term: ", num_variables);
+
+      this.coefficient = getRandomInt(100);
+      if (getRandomBoolean()) this.coefficient = this.coefficient * -1;
+      if (num_variables == 1) {
+        this.variable = 'X';
+      } else if (num_variables == 2) {
+        this.variable = getRandomBoolean() ? 'X' : 'Y';
+      } else {
+        var randomInt = getRandomInt(3);
+        if (randomInt == 0) this.variable = 'X'
+        else if (randomInt == 1) this.variable = 'Y'
+        else this.variable = 'Z';
+      }
+    }
+
+    toString() {
+      return (this.coefficient > 0 ? '+' : '') + this.coefficient + this.variable;
+    }
+  }
+
+  class ConstTerm {
+    coefficient = 0;
+
+    constructor() {
+      console.log("new ConstTerm");
+
+      this.coefficient = getRandomInt(100);
+      if (getRandomBoolean()) this.coefficient = this.coefficient * -1;
+    }
+
+    toString() {
+      return (this.coefficient > 0 ? '+' : '') + this.coefficient;
+    }
+  }
+
+  class Expression {
+    
+    terms;
+    const_terms;
+
+    constructor(num_variable_terms, num_variables, num_const_terms) {
+      console.log("new Exp: ", num_variable_terms, num_variables);
+      this.terms = [];
+      for (let i = 0; i < num_variable_terms; i++) {
+        this.terms.push(new Term(num_variables));
+      }
+      this.const_terms = [];
+      for (let i = 0; i < num_const_terms; i++) {
+        this.const_terms.push(new ConstTerm());
+      }
+    }
+
+    toString() {
+      var str = '';
+      var all_terms = this.terms.concat(this.const_terms);
+      shuffleArray(all_terms);
+      all_terms.forEach((term) => str += term.toString());
+
+      if (str.charAt(0) == '+') {
+        return str.substring(1);
+      } else return str;
+    }
+  }
+
+  class Equation {
+    left;
+    right;
+
+    constructor(num_terms, num_variables) {
+      this.left = new Expression(num_terms, num_variables, num_terms);
+      this.right = new Expression(num_terms, num_variables, num_terms);
+    }
+
+    toString() {
+      return this.left.toString() + ' = ' + this.right.toString();
+    }
+  }
+
+  function onload() {
+    var questionDiv = document.getElementById("question");
+
+    var question = new Equation(3, 1);
+    questionDiv.innerText = question.toString();
+  }
+</script>
 </head>
-<body>
+<body onLoad="onload()">
   <h1>Equations: 1st power</h1>
-  <button class="launcher" onclick="window.location.href='tetris/index.html'">Tetris</button>
-  <button class="launcher" onclick="window.location.href='type/index.html'">Type</button>
-  <button class="launcher" onclick="window.location.href='math/index.html'">Math</button>
+  <div id="question">
+
+  </div>
 </body>
 </html>
